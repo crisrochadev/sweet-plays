@@ -1,5 +1,5 @@
 <template>
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 p-4 gap-4 w-full">
+  <div class="grid grid-cols-2 lg:grid-cols-4 p-4 gap-4 w-full">
     <div
       v-for="game in games"
       :key="game.id"
