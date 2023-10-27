@@ -3,7 +3,7 @@
     <div
       v-for="game in games"
       :key="game.id"
-      class="max-w-sm flex flex-col justify-between bg-white shadow-md rounded-lg teste:bg-gray-800 teste:border-gray-700"
+      class="max-w-sm p-2 flex flex-col justify-between bg-white shadow-md rounded-lg teste:bg-gray-800 teste:border-gray-700"
     >
       <div>
         <img
@@ -14,7 +14,7 @@
       </div>
       <div class="p-5">
         <h5
-          class="mb-2 text-2xl tracking-tight text-cyan-600 teste:text-white uppercase font-extrabold"
+          class="mb-2 text-md md:text-lg lg:text-2xl tracking-tight text-cyan-600 teste:text-white uppercase font-extrabold"
         >
           {{ game.title }}
         </h5>

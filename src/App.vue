@@ -24,7 +24,7 @@
     >
       <button
         @click="openMenu = !openMenu"
-        class="text-cyan-700 gap-2 hover:text-cyan-800 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+        class="text-cyan-700 gap-2 hover:text-cyan-800 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center teste:bg-cyan-600 teste:hover:bg-cyan-700 teste:focus:ring-cyan-800"
         type="button"
       >
         <span class="material-icons-outlined">person</span>
@@ -35,34 +35,34 @@
       <Transition name="menu_user">
         <div
           v-if="openMenu"
-          class="z-10 absolute top-8 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+          class="z-10 absolute top-8 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 teste:bg-gray-700 teste:divide-gray-600"
         >
-          <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          <div class="px-4 py-3 text-sm text-gray-900 teste:text-white">
             <div>Bonnie Green</div>
             <div class="font-medium truncate">name@flowbite.com</div>
           </div>
           <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
+            class="py-2 text-sm text-gray-700 teste:text-gray-200"
             aria-labelledby="dropdownInformationButton"
           >
             <li>
               <a
                 href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                class="block px-4 py-2 hover:bg-gray-100 teste:hover:bg-gray-600 teste:hover:text-white"
                 >Dashboard</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                class="block px-4 py-2 hover:bg-gray-100 teste:hover:bg-gray-600 teste:hover:text-white"
                 >Settings</a
               >
             </li>
             <li>
               <a
                 href="#"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                class="block px-4 py-2 hover:bg-gray-100 teste:hover:bg-gray-600 teste:hover:text-white"
                 >Earnings</a
               >
             </li>
