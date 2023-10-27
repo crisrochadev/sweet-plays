@@ -3,7 +3,7 @@
     <div
       v-for="game in games"
       :key="game.id"
-      class="max-w-sm flex flex-col justify-between bg-white shadow-md rounded-lg dark:bg-gray-800 dark:border-gray-700"
+      class="max-w-sm flex flex-col justify-between bg-white shadow-md rounded-lg teste:bg-gray-800 teste:border-gray-700"
     >
       <div>
         <img
@@ -14,13 +14,13 @@
       </div>
       <div class="p-5">
         <h5
-          class="mb-2 text-2xl tracking-tight text-cyan-600 dark:text-white uppercase font-extrabold"
+          class="mb-2 text-2xl tracking-tight text-cyan-600 teste:text-white uppercase font-extrabold"
         >
           {{ game.title }}
         </h5>
         <router-link
           :to="{ name: game.name }"
-          class="w-full justify-center uppecase font-bold flex items-center px-3 py-2 text-sm text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+          class="w-full justify-center uppecase font-bold flex items-center px-3 py-2 text-sm text-center text-white bg-cyan-700 rounded-lg hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 teste:bg-cyan-600 teste:hover:bg-cyan-700 teste:focus:ring-cyan-800"
         >
           Jogar
         </router-link>

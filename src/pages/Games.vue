@@ -23,7 +23,7 @@
                 }
               "
               :class="[index < breadcrumbs.length - 1 ? 'hover:text-cyan-600' : '']"
-              class="ml-2 inline-flex items-center text-sm font-medium cursor-pointer text-gray-700  dark:text-gray-400 dark:hover:text-white"
+              class="ml-2 inline-flex items-center text-sm font-medium cursor-pointer text-gray-700  teste:text-gray-400 teste:hover:text-white"
             >
               {{ item.name }}
             </div>

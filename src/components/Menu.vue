@@ -1,14 +1,14 @@
 <template>
   <div
     id="drawer-navigation"
-    class="absolute top-0 left-0 z-40 w-64 h-full shadow-md p-4 overflow-y-auto transition-transform bg-white dark:bg-gray-800"
+    class="absolute top-0 left-0 z-40 w-64 h-full shadow-md p-4 overflow-y-auto transition-transform bg-white "
     tabindex="-1"
     :class="[open ? '' : '-translate-x-[calc(100%_-_70px)]']"
     aria-labelledby="drawer-navigation-label"
   >
     <h5
       id="drawer-navigation-label"
-      class="text-base flex justify-end px-2 items-center font-semibold text-gray-500 uppercase dark:text-gray-400"
+      class="text-base flex justify-end px-2 items-center font-semibold text-gray-500 uppercase "
     >
       <button
         type="button"
@@ -37,10 +37,10 @@
         >
           <a
             href="#"
-            class="flex w-full items-center justify-start p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex w-full items-center justify-start p-2 text-gray-900 rounded-lg  hover:bg-gray-100 d group"
           >
             <span
-              class="material-icons-outlined w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+              class="material-icons-outlined w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-900 "
             >
               {{ item.icon }}
             </span>
