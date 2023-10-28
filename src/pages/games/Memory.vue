@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full h-[calc(100vh_-_115px)]">
+  <div class="w-full h-[calc(100vh_-_150px)]">
     <div>Pontuações e afins</div>
-    <div class="w-full flex flex-wrap gap-4 justify-start items-start p-4">
+    <div class="w-full grid gap-1 justify-center items-start p-2 box  h-full">
       <button
         v-for="item in items"
         :key="item.id"
         @click="showImage(item)"
-        class="flex justify-center items-center flip-card"
+        class="flex justify-center items-center flip-card w-full h-full"
         :class="[showing.some((i) => i.id === item.id) ? 'show' : '']"
-        :style="`width:${tam};height:${tam}`"
+       
       >
         <div
           class="flip-card-inner w-full h-full flex justify-center items-center"
@@ -39,14 +39,20 @@ export default {
       currIcons: icons,
       showing: [],
       completeIcons: [],
+      cols:4,
       par: [],
     };
   },
   computed: {
+    tam() {
+      return ((window.screen.height - 150) / this.cols) ;
+    },
     items: {
       get() {
+        let rows = Math.floor((window.screen.height - 150) / this.tam);
+
         let icons = this.currIcons.filter(
-          (icon, index) => index > this.previous && index <= this.next
+          (icon, index) => index > this.previous && index <= (this.next*rows)/2
         );
         let items = [];
         icons.forEach((item, index) => {
@@ -65,9 +71,7 @@ export default {
         this.currIcons = newvalue;
       },
     },
-    tam() {
-      return "100px";
-    },
+   
   },
   methods: {
     showImage(char) {
@@ -116,6 +120,9 @@ export default {
 </script>
 
 <style scoped>
+.box{
+  grid-template-columns: repeat(v-bind(cols),1fr);
+}
 .flip-card {
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
