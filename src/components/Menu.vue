@@ -3,7 +3,7 @@
     id="drawer-navigation"
     class="absolute top-0 left-0 z-40 w-64 h-full shadow-md p-4 overflow-y-auto transition-transform bg-white "
     tabindex="-1"
-    :class="[open ? '' : '-translate-x-[calc(100%_-_70px)]']"
+    :class="[open ? '' : $route.name === 'play' ? '-translate-x-[calc(100%_-_70px)]' : '-translate-x-[100%]']"
     aria-labelledby="drawer-navigation-label"
   >
     <h5

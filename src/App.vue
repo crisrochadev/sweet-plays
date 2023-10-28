@@ -1,15 +1,16 @@
 <template>
   <div class="w-full h-12 flex justify-between items-center px-4">
     <div class="flex-1 h-full relative flex justify-start items-center gap-4">
+      <button>
+        <span v-if="$route.path.startsWith('/play') && $route.name !== 'play'" class="material-icons-outlined text-xs text-cyan-600 cursor-pointer" @click="$router.go(-1)">arrow_back</span>
+      </button>
       <img
         src="/img/logo.svg"
         alt="Sweet Plays"
         title="Sweet Plays"
         class="w-6 h-10 object-fill"
       />
-      <h2 class="uppercase font-extrabold text-cyan-600 md:text-lg">
-        Sweet Plays
-      </h2>
+     
     </div>
     <div
       class="menu flex justify-end items-center gap-2"
@@ -24,7 +25,7 @@
     >
       <button
         @click="openMenu = !openMenu"
-        class="text-cyan-700 gap-2 hover:text-cyan-800 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center teste:bg-cyan-600 teste:hover:bg-cyan-700 teste:focus:ring-cyan-800"
+        class="text-cyan-700 gap-2 hover:text-cyan-800 text-xs focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center teste:bg-cyan-600 teste:hover:bg-cyan-700 teste:focus:ring-cyan-800"
         type="button"
       >
         <span class="material-icons-outlined">person</span>

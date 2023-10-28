@@ -12,9 +12,9 @@
           :alt="game.title"
         />
       </div>
-      <div class="p-5">
+      <div class="">
         <h5
-          class="mb-2 text-md md:text-lg lg:text-2xl tracking-tight text-cyan-600 teste:text-white uppercase font-extrabold"
+          class="mb-2 text-[10px] md:text-lg lg:text-2xl tracking-tight text-cyan-600 teste:text-white uppercase font-extrabold"
         >
           {{ game.title }}
         </h5>

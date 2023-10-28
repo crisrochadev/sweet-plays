@@ -3,7 +3,10 @@
     class="w-full relative h-[calc(100vh_-_70px)] overflow-hidden flex justify-end items-start gap-4"
   >
     <Menu />
-    <div class="w-[calc(100%_-_80px)] h-full overflow-y-auto">
+    <div
+      class="h-full overflow-y-auto"
+      :class="[$route.name === 'play' ? 'w-[calc(100%_-_80px)]' : 'w-[100%]']"
+    >
       <nav class="flex" aria-label="Breadcrumb">
         <!-- <div @click="$router.go(-1)" class="w-10 h-10 flex justify-center items-center cursor-pointer hover:text-cyan-400">
           <span class="material-icons-sharp">arrow_back</span>
@@ -22,17 +25,19 @@
                   }
                 }
               "
-              :class="[index < breadcrumbs.length - 1 ? 'hover:text-cyan-600' : '']"
-              class="ml-2 inline-flex items-center text-sm font-medium cursor-pointer text-gray-700  teste:text-gray-400 teste:hover:text-white"
+              :class="[
+                index < breadcrumbs.length - 1 ? 'hover:text-cyan-600' : 'text-cyan-600',
+              ]"
+              class="ml-2 inline-flex items-center text-sm font-medium cursor-pointer text-gray-700 teste:text-gray-400 teste:hover:text-white"
             >
               {{ item.name }}
             </div>
           </div>
           <span
             v-if="index < breadcrumbs.length - 1"
-            class=" text-gray-700 inline-block mr-4"
-            >| </span
-          >
+            class="text-gray-700 inline-block mr-4"
+            >|
+          </span>
         </div>
       </nav>
 
