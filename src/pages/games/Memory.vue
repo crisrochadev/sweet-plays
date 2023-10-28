@@ -5,9 +5,9 @@
       <button
         v-for="item in items"
         :key="item.id"
-        @click="showImage(item.char)"
+        @click="showImage(item)"
         class="flex justify-center items-center flip-card"
-        :class="[showing.includes(item.char) ? 'show' : '']"
+        :class="[showing.some((i) => i.id === item.id) ? 'show' : '']"
         :style="`width:${tam};height:${tam}`"
       >
         <div
@@ -38,30 +38,78 @@ export default {
       previous: 0,
       currIcons: icons,
       showing: [],
+      completeIcons: [],
+      par: [],
     };
   },
   computed: {
     items: {
       get() {
-        let icons = this.currIcons
-          .filter((icon, index) => index > this.previous && index <= this.next)
-          .map((i) => ({ ...i, show: false }))
-        return [...icons,...icons];
+        let icons = this.currIcons.filter(
+          (icon, index) => index > this.previous && index <= this.next
+        );
+        let items = [];
+        icons.forEach((item, index) => {
+          items.push({
+            ...item,
+            id: index + 1,
+          });
+          items.push({
+            ...item,
+            id: icons.length + index + 1,
+          });
+        });
+        return this.shuffleArray(items);
       },
       set(newvalue) {
         this.currIcons = newvalue;
       },
     },
     tam() {
-      return '100px';
+      return "100px";
     },
   },
   methods: {
     showImage(char) {
       if (!this.showing.includes(char)) {
         this.showing.push(char);
+        this.par.push(char);
       }
-      
+
+      this.checkWinner1(char);
+    },
+    shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    },
+    checkWinner1() {
+      console.log(this.par);
+      if (this.par.length === 2) {
+        if (this.par[0].char === this.par[1].char) {
+          this.completeIcons.push(this.showing[0].char);
+          this.completeIcons.push(this.showing[1].char);
+          this.checkComplete();
+          this.par = [];
+        } else {
+          setTimeout(() => {
+            this.showing = this.showing.filter(
+              (s) => s.char !== this.par[1].char && s.char !== this.par[0].char
+            );
+            this.par = [];
+          }, 600);
+        }
+      }
+    },
+    checkComplete() {
+      if (this.completeIcons.length === this.items.length) {
+        console.log("vencedor");
+        setTimeout(() => {
+          alert("Voce venceu!");
+        }, 600);
+      }
     },
   },
 };
