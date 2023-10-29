@@ -128,7 +128,7 @@ export default {
         setTimeout(() => {
           this.sucesso();
           this.par = [];
-          this.howing = [];
+          this.showing = [];
           this.completeIcons = [];
           this.previous = this.next;
           this.next = this.next + 4;
