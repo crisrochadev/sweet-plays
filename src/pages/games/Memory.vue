@@ -5,11 +5,13 @@
       <button
         v-for="item in items"
         :key="item.id"
-        @click="() => {
-          if(!showing.some((i) => i.id === item.id)){
-          showImage(item)
+        @click="
+          () => {
+            if (!showing.some((i) => i.id === item.id)) {
+              showImage(item);
+            }
           }
-        }"
+        "
         class="flex justify-center items-center flip-card w-full h-full"
         :class="[showing.some((i) => i.id === item.id) ? 'show' : '']"
       >
@@ -125,6 +127,11 @@ export default {
       if (this.completeIcons.length === this.items.length) {
         setTimeout(() => {
           this.sucesso();
+          this.par = [];
+          this.howing = [];
+          this.completeIcons = [];
+          this.previous = this.next;
+          this.next = this.next + 4;
           alert("Voce venceu!");
         }, 600);
       }
