@@ -1,8 +1,9 @@
 <template>
   <div class="w-full h-[calc(100vh_-_150px)]">
     <div class="flex w-full">
-      <div class="flex w-full uppercase font-bold gap-2">
-      Pontos: <span class="text-cyan-600 font-extrabold">{{points}}</span>
+      <div class="flex w-full uppercase font-bold gap-2 justify-between items-center p-2">
+      <p>Pontos: <span class="text-cyan-600 font-extrabold">{{points}}</span></p>
+        <p>Chances: <span class="text-cyan-600 font-extrabold">{{choices}}</span></p>
     </div>
     </div>
     <div class="w-full grid gap-1 justify-center items-start p-2 box h-full">
