@@ -1,6 +1,10 @@
 <template>
   <div class="w-full h-[calc(100vh_-_150px)]">
-    <div>Pontuações e afins</div>
+    <div class="flex w-full">
+      <div class="flex w-full uppercase font-bold gap-2">
+      Pontos: <span class="text-cyan-600 font-extrabold">{{points}}</span>
+    </div>
+    </div>
     <div class="w-full grid gap-1 justify-center items-start p-2 box h-full">
       <button
         v-for="item in items"
@@ -56,6 +60,8 @@ export default {
       completeIcons: [],
       cols: 4,
       par: [],
+      choices:32,
+      points:0
     };
   },
   computed: {
@@ -91,12 +97,18 @@ export default {
   methods: {
     showImage(char) {
       this.play();
+      this.choices--
+      if(this.choices !== 0){
       if (!this.showing.includes(char)) {
         this.showing.push(char);
         this.par.push(char);
       }
 
       this.checkWinner1(char);
+      }
+      else{
+        this.loose()
+      }
     },
     shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -111,7 +123,8 @@ export default {
           this.completeIcons.push(this.showing[0].char);
           this.completeIcons.push(this.showing[1].char);
           this.checkComplete();
-          this.par = [];
+          this.par = []
+          this.points++
         } else {
           this.erro();
           setTimeout(() => {
@@ -123,6 +136,15 @@ export default {
         }
       }
     },
+    loose(){
+      this.points=0
+      this.par = [];
+          this.showing = [];
+          this.completeIcons = [];
+          this.curraIcons = this.shuffleArray(icons)
+          this.erro()
+          alert("Voce nao tem mais chances")
+    },
     checkComplete() {
       if (this.completeIcons.length === this.items.length) {
         setTimeout(() => {
@@ -130,7 +152,7 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.curraIcons = icons;
+          this.curraIcons = this.shuffleArray(icons)
           
           alert("Voce venceu!");
         }, 600);
