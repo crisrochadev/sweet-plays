@@ -130,7 +130,7 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          
+          this.curraIcons = icons;
           
           alert("Voce venceu!");
         }, 600);
