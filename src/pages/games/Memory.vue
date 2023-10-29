@@ -50,7 +50,10 @@
         <h2 class="uppercase font-bold text-cyan-600 mb-8 text-3xl">
           Parabens!
         </h2>
-        <p class="">Você encontrou todos</p>
+        <p class="">Você ainda tem</p>
+        
+        <p class="">{{choices}}</p>
+        <p class="">chances</p>
         <div class="w-full flex justify-center items-center mt-8">
           <button
             @click="win = false"
