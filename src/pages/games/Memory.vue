@@ -66,7 +66,7 @@ export default {
       get() {
         let rows = Math.floor((window.screen.height - 150) / this.tam);
 
-        let icons = this.currIcons.filter(
+        let icons = this.shuffleArray(this.currIcons).filter(
           (icon, index) =>
             index > this.previous && index <= (this.next * rows) / 2
         );
@@ -130,8 +130,8 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.previous = this.next;
-          this.next = this.next + 4;
+          
+          
           alert("Voce venceu!");
         }, 600);
       }
