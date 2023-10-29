@@ -98,7 +98,7 @@ export default {
   methods: {
     showImage(char) {
       this.play();
-      this.choices--
+      
       if(this.choices !== 0){
       if (!this.showing.includes(char)) {
         this.showing.push(char);
@@ -128,6 +128,7 @@ export default {
           this.points++
         } else {
           this.erro();
+          this.choices--
           setTimeout(() => {
             this.showing = this.showing.filter(
               (s) => s.char !== this.par[1].char && s.char !== this.par[0].char
@@ -142,7 +143,7 @@ export default {
       this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.curraIcons = this.shuffleArray(icons)
+          this.currIcons = this.shuffleArray(icons)
           this.erro()
           alert("Voce nao tem mais chances")
     },
@@ -153,7 +154,7 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.curraIcons = this.shuffleArray(icons)
+          this.currIcons = this.shuffleArray(icons)
           
           alert("Voce venceu!");
         }, 600);
