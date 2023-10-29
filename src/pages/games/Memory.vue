@@ -62,16 +62,22 @@ export default {
       cols: 4,
       par: [],
       choices:24,
-      points:0
+      points:0,
+      items:[]
     };
   },
   computed: {
     tam() {
       return (window.screen.height - 150) / this.cols;
     },
-    items: {
-      get() {
-        let rows = Math.floor((window.screen.height - 150) / this.tam);
+    
+  },
+  mounted(){
+    this.mountItems()
+  },
+  methods: {
+    mountItems(){
+      let rows = Math.floor((window.screen.height - 150) / this.tam);
 
         let icons = this.shuffleArray(this.currIcons).filter(
           (icon, index) =>
@@ -88,14 +94,8 @@ export default {
             id: icons.length + index + 1,
           });
         });
-        return this.shuffleArray(items);
-      },
-      set(newvalue) {
-        this.currIcons = newvalue;
-      },
+        this.items = this.shuffleArray(items)
     },
-  },
-  methods: {
     showImage(char) {
       this.play();
       
@@ -143,7 +143,7 @@ export default {
       this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.items = this.shuffleArray(icons)
+          this.mountItems()
           this.erro()
           alert("Voce nao tem mais chances")
     },
@@ -154,7 +154,7 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.items = this.shuffleArray(icons)
+          this.mountItems()
           
           alert("Voce venceu!");
         }, 600);
