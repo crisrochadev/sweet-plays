@@ -61,7 +61,7 @@ export default {
       completeIcons: [],
       cols: 4,
       par: [],
-      choices:32,
+      choices:24,
       points:0
     };
   },
@@ -143,7 +143,7 @@ export default {
       this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.currIcons = this.shuffleArray(icons)
+          this.items = this.shuffleArray(icons)
           this.erro()
           alert("Voce nao tem mais chances")
     },
@@ -154,7 +154,7 @@ export default {
           this.par = [];
           this.showing = [];
           this.completeIcons = [];
-          this.currIcons = this.shuffleArray(icons)
+          this.items = this.shuffleArray(icons)
           
           alert("Voce venceu!");
         }, 600);
