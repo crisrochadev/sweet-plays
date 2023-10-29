@@ -1,14 +1,17 @@
 <template>
   <div class="w-full h-[calc(100vh_-_150px)]">
     <div>Pontuações e afins</div>
-    <div class="w-full grid gap-1 justify-center items-start p-2 box  h-full">
+    <div class="w-full grid gap-1 justify-center items-start p-2 box h-full">
       <button
         v-for="item in items"
         :key="item.id"
-        @click="showImage(item)"
+        @click="() => {
+          if(!showing.some((i) => i.id === item.id)){
+          showImage(item)
+          }
+        }"
         class="flex justify-center items-center flip-card w-full h-full"
         :class="[showing.some((i) => i.id === item.id) ? 'show' : '']"
-       
       >
         <div
           class="flip-card-inner w-full h-full flex justify-center items-center"
@@ -30,29 +33,40 @@
 
 <script>
 import icons from "@/assets/icons";
+import useCarrinho from "@/composables/carrinho";
+import useErro from "@/composables/erro";
+import useSucesso from "@/composables/sucesso";
 
 export default {
   data() {
+    const play = useCarrinho();
+    const erro = useErro();
+    const sucesso = useSucesso();
+    // const { play:sucesso } = useSound(sucesso);
     return {
       next: 4,
+      play,
+      erro,
+      sucesso,
       previous: 0,
       currIcons: icons,
       showing: [],
       completeIcons: [],
-      cols:4,
+      cols: 4,
       par: [],
     };
   },
   computed: {
     tam() {
-      return ((window.screen.height - 150) / this.cols) ;
+      return (window.screen.height - 150) / this.cols;
     },
     items: {
       get() {
         let rows = Math.floor((window.screen.height - 150) / this.tam);
 
         let icons = this.currIcons.filter(
-          (icon, index) => index > this.previous && index <= (this.next*rows)/2
+          (icon, index) =>
+            index > this.previous && index <= (this.next * rows) / 2
         );
         let items = [];
         icons.forEach((item, index) => {
@@ -71,10 +85,10 @@ export default {
         this.currIcons = newvalue;
       },
     },
-   
   },
   methods: {
     showImage(char) {
+      this.play();
       if (!this.showing.includes(char)) {
         this.showing.push(char);
         this.par.push(char);
@@ -90,7 +104,6 @@ export default {
       return array;
     },
     checkWinner1() {
-      console.log(this.par);
       if (this.par.length === 2) {
         if (this.par[0].char === this.par[1].char) {
           this.completeIcons.push(this.showing[0].char);
@@ -98,6 +111,7 @@ export default {
           this.checkComplete();
           this.par = [];
         } else {
+          this.erro();
           setTimeout(() => {
             this.showing = this.showing.filter(
               (s) => s.char !== this.par[1].char && s.char !== this.par[0].char
@@ -109,8 +123,8 @@ export default {
     },
     checkComplete() {
       if (this.completeIcons.length === this.items.length) {
-        console.log("vencedor");
         setTimeout(() => {
+          this.sucesso();
           alert("Voce venceu!");
         }, 600);
       }
@@ -120,8 +134,8 @@ export default {
 </script>
 
 <style scoped>
-.box{
-  grid-template-columns: repeat(v-bind(cols),1fr);
+.box {
+  grid-template-columns: repeat(v-bind(cols), 1fr);
 }
 .flip-card {
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
