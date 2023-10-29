@@ -101,7 +101,7 @@ export default {
       erro,
       sucesso,
       win: false,
-      los: true,
+      los: false,
       previous: 0,
       currIcons: icons,
       showing: [],
@@ -189,6 +189,7 @@ export default {
       this.showing = [];
       this.completeIcons = [];
       this.mountItems();
+      this.choices=48
       this.erro();
       this.los = true;
     },
@@ -200,7 +201,7 @@ export default {
           this.showing = [];
           this.completeIcons = [];
           this.mountItems();
-
+          this.choices=this.choices+2
           this.win = true;
         }, 600);
       }
