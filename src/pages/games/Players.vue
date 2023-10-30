@@ -112,7 +112,7 @@ export default {
       let letters = "";
       if (user && user.username) {
         letters = user.username.substring(0, 1);
-        if (user.split(" ")[1]) {
+        if (user.username.split(" ")[1]) {
           letters = letters + user.split(" ")[1].substring(0, 1);
         }
       } else if (user) {

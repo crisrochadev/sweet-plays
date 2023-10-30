@@ -88,7 +88,7 @@ export default {
       const loginData = {
         email: e.target.email.value,
         password: e.target.password.value,
-        username: e.target.password.value,
+        username: e.target.username.value,
       };
       if (/[^a-zA-Z0-9_\-]/.test(e.target.username.value)) {
         return;

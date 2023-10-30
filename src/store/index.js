@@ -86,15 +86,21 @@ export const useApi = defineStore("api", {
           return { error: error.message, success: false };
         });
 
+      console.log(response);
       if (error) {
         return response;
       }
       if (response.user && response.user.uid) {
         this.user = response.user;
         let currentUser = {
-          ...response.user,
-          username,
+          uid: response.user.uid,
+          email: response.user.email,
+          emailVerified: response.user.emailVerified,
+          isAnonymous: response.user.isAnonymous,
+          createdAt: "1698701605053",
         };
+        console.log(currentUser);
+        currentUser["username"] = username;
         const res = fire.set(
           fire.dbRef(database, "users/" + response.user.uid),
           currentUser
