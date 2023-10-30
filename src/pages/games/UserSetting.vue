@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import {useApi} from "@/stores/index.js"
+    import {useApi} from "@/store/index.js"
     export default {
       data(){
           const store = useApi()
