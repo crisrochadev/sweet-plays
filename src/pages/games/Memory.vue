@@ -19,7 +19,7 @@
         :key="item.id"
         @click="
           () => {
-            if (!showing.some((i) => i.id === item.id)) {
+            if (!showing.some((i) => i.id === item.id) && clickable) {
               showImage(item);
             }
           }
@@ -114,6 +114,7 @@ export default {
       choices: 48,
       points: 0,
       items: [],
+      clickable:true
     };
   },
   computed: {
@@ -147,7 +148,8 @@ export default {
     },
     showImage(char) {
       this.play();
-
+this.clickable=false
+      setTimeout(()=>this.clickable=true,600)
       if (this.choices !== 0) {
         if (!this.showing.includes(char)) {
           this.showing.push(char);
