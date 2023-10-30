@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[calc(100vh_-_150px)]">
+  <div class="w-full h-[calc(100vh_-_250px)]">
     <div class="flex w-full">
       <div
         class="flex w-full uppercase font-bold gap-2 justify-between items-center p-2"
