@@ -1,10 +1,18 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword , createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  signOut,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import {
   getDatabase,
   ref as dbRef,
   onValue,
   get,
+  set,
   child,
 } from "firebase/database";
 
@@ -20,6 +28,7 @@ const firebaseConfig = {
   appId: "1:625968247315:web:8648b99cf47adabffcc5e6",
   measurementId: "G-4XCSE2RH82",
   databaseURL: "https://sweet-play-default-rtdb.firebaseio.com",
+
 };
 
 // Initialize Firebase
@@ -29,6 +38,7 @@ const app = initializeApp(firebaseConfig);
 export const database = getDatabase(app);
 
 export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
 export const fire = {
   dbRef,
@@ -36,5 +46,9 @@ export const fire = {
   get,
   child,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  set
 };

@@ -1,34 +1,62 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../pages/HomeView.vue";
+import authUser from "@/services/auth";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("../layouts/PublicLayout.vue"),
+    children: [
+      {
+        path: "login",
+        name: "login",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../pages/Login.vue"),
+      },
+    ],
   },
+
   {
-    path: "/login",
-    name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/Login.vue"),
-  },
-  {
-    path: "/play",
+    path: "/play/:uid",
     name: "games",
     meta: {
       title: "Jogos",
     },
-    component: () => import("../pages/Games.vue"),
+    component: () => import("../layouts/UserLayout.vue"),
     children: [
       {
         path: "",
         meta: { title: "Jogos" },
         name: "play",
         component: () => import("../pages/games/Index.vue"),
+      },
+      {
+        path: "user",
+        meta: { title: "Configurações da Conta" },
+        name: "user_settings",
+        component: () => import("../pages/games/UserSetting.vue"),
+      },
+      {
+        path: "ranking",
+        meta: { title: "Ranking" },
+        name: "ranking",
+        component: () => import("../pages/games/Ranking.vue"),
+      },
+      {
+        path: "settings",
+        meta: { title: "Configurações" },
+        name: "settings",
+        component: () => import("../pages/games/Settings.vue"),
+      },
+      {
+        path: "players",
+        meta: { title: "Jogadores" },
+        name: "players",
+        component: () => import("../pages/games/Players.vue"),
       },
       {
         path: "memory",
@@ -63,4 +91,12 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach(async (to, from) => {
+  const user = await authUser();
+  if (to.name === "games") {
+    return { name: "home" };
+  } else if (!user.success && to.name !== "login" && to.name !== "home") {
+    return { name: "login" };
+  }
+});
 export default router;

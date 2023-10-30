@@ -1,14 +1,19 @@
 import { defineStore } from "pinia";
-import { database, fire, auth } from "@/boot/firebase";
+import { database, fire, auth } from "@/services/firebase";
+import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 
 export const useApi = defineStore("api", {
   state() {
     const db = database;
+    const router = useRouter();
     return {
       db,
       data: [],
       auth,
       user: null,
+      router,
+      players: [],
     };
   },
   getters: {
@@ -69,8 +74,9 @@ export const useApi = defineStore("api", {
       this.user = response.user;
       return response;
     },
-    async register({ email, password }) {
+    async register({ email, password, username }) {
       let error = null;
+
       let response = await fire
         .createUserWithEmailAndPassword(this.auth, email, password)
         .then((userCredential) => {
@@ -84,7 +90,66 @@ export const useApi = defineStore("api", {
         return response;
       }
       this.user = response.user;
+      const res = fire.set(fire.dbRef(database, "users/" + response.user.uid), {
+        ...response.user,
+        username,
+      });
+      console.log(res);
       return response;
+    },
+    async logout() {
+      fire
+        .signOut(auth)
+        .then(() => {
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "usuário desconectado",
+            showConfirmButton: false,
+            timer: 1500,
+            willClose: () => {
+              this.user = null;
+              this.router.push({ name: "login" });
+            },
+          });
+        })
+        .catch((error) => {
+          Swal.fire({
+            position: "top-center",
+            icon: "error",
+            title: "Houve um erro ao tentar desconectar",
+            showConfirmButton: false,
+            timer: 1500,
+            willClose: () => {
+              this.router.push({ name: "home" });
+            },
+          });
+        });
+    },
+    async getUser() {
+      this.user = auth.currentUser;
+    },
+    async getPlayers() {
+      const getDB = fire.dbRef(database);
+      const res = await fire
+        .get(fire.child(getDB, `users`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return snapshot.val();
+          } else {
+            console.log("No data available");
+            return {
+              error: "No data available",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      if (!res.error) {
+        this.players = res;
+      }
     },
   },
 });

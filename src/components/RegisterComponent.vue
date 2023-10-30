@@ -18,6 +18,18 @@
           placeholder="Email"
         />
       </div>
+      <div class="relative mb-6" data-te-input-wrapper-init>
+        <input
+          type="text"
+          name="username"
+          v-model="username"
+          required
+          class="focus:outline-none w-full h-14 bg-transparent border-2 border-cyan-500 rounded p-2 placeholder:text-cyan-500"
+          id="exampleFormControlInput3"
+          placeholder="Nome de usuário"
+        />
+        <p v-if="errorDisplay" class="text-xs text-red-700 px-1"> {{ errorMsg }}</p>
+      </div>
 
       <!-- Password input -->
       <div
@@ -150,7 +162,22 @@ export default {
   data() {
     return {
       typePass: true,
+      username: null,
+      errorDisplay:false,
+      errorMsg:''
     };
+  },
+  watch: {
+    username(newvalue) {
+      if (/[^a-zA-Z0-9_\-]/.test(newvalue)) {
+        this.errorDisplay= true;
+        this.errorMsg =
+          "O nome de usuário não pode conter espaços ou caracteres especiais, os unicos permitidos são ponto(.) , underline(_) e hífen(-).";
+      }
+      else{
+        this.errorDisplay= false
+      }
+    },
   },
   computed: {
     err: {

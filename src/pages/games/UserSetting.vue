@@ -1,11 +1,13 @@
 <template>
-  <router-view :key="$route.path"/>
+    <div>
+Configurações
+    </div>
 </template>
 
 <script>
-  export default {
-    
-  }
+    export default {
+        
+    }
 </script>
 
 <style lang="scss" scoped>

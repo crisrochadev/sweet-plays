@@ -73,7 +73,10 @@ export default {
           ? "Usuário não cadastrado"
           : "";
       } else {
-        this.$router.push({ name: "games" });
+        this.$router.push({
+          name: "play",
+          params: { uid: this.store.user.uid },
+        });
       }
       setTimeout(() => {
         this.error = false;
@@ -85,7 +88,11 @@ export default {
       const loginData = {
         email: e.target.email.value,
         password: e.target.password.value,
+        username: e.target.password.value,
       };
+      if (/[^a-zA-Z0-9_\-]/.test(e.target.username.value)) {
+        return;
+      }
       if (e.target.password.value !== e.target.cpassword.value) {
         this.error = true;
         this.msg = "As senhas não são iguais";
@@ -94,14 +101,17 @@ export default {
         this.msg = "Sua senha precisa ter mais de 6 caracteres";
       } else {
         const res = await this.store.register(loginData);
-        console.log(res);
+
         if (!res.success) {
           this.error = true;
           this.msg = res.error.includes("auth/invalid-login-credentials")
             ? "Usuário não cadastrado"
             : "";
         } else {
-          this.$router.push({ name: "games" });
+          this.$router.push({
+            name: "play",
+            params: { uid: this.store.user.uid },
+          });
         }
       }
       setTimeout(() => {
