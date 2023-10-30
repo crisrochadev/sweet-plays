@@ -17,6 +17,7 @@
       <button
         v-for="item in items"
         :key="item.id"
+        :disable="clickable"
         @click="
           () => {
             if (!showing.some((i) => i.id === item.id) && clickable) {
