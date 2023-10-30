@@ -89,12 +89,18 @@ export const useApi = defineStore("api", {
       if (error) {
         return response;
       }
-      this.user = response.user;
-      const res = fire.set(fire.dbRef(database, "users/" + response.user.uid), {
-        ...response.user,
-        username,
-      });
-      console.log(res);
+      if (response.user && response.user.uid) {
+        this.user = response.user;
+        let currentUser = {
+          ...response.user,
+          username,
+        };
+        const res = fire.set(
+          fire.dbRef(database, "users/" + response.user.uid),
+          currentUser
+        );
+        console.log(res);
+      }
       return response;
     },
     async logout() {

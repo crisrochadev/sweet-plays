@@ -68,7 +68,7 @@
           <div
             class="w-full overflow-hidden px-4 text-cyan-900 uppercase font-bold flex justify-start items-center"
           >
-            @ <span>{{ player.displayName ? player.displayName : "" }}</span>
+            @ <span>{{ player.username ? player.username : "" }}</span>
           </div>
           <div class="w-full flex justify-center items-center">
             <button
@@ -110,8 +110,8 @@ export default {
   methods: {
     getNameUser(user) {
       let letters = "";
-      if (user && user.displayName) {
-        letters = user.displayName.substring(0, 1);
+      if (user && user.username) {
+        letters = user.username.substring(0, 1);
         if (user.split(" ")[1]) {
           letters = letters + user.split(" ")[1].substring(0, 1);
         }
