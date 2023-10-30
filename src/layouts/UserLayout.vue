@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen overflow-hidden">
+  <div class="w-screen h-screen overflow-hidden bg-white dark:bg-gray-800 dark:text-white">
     <breadcrumbs></breadcrumbs>
     <router-view :key="$route.path" />
 
