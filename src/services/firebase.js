@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage  } from "firebase/messaging";
+
 
 import {
   getAuth,
@@ -41,15 +41,7 @@ export const database = getDatabase(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 
-export const messaging = {
-  msg: getMessaging(app),
-  getToken: getToken,
-};
 
-// onMessage((payload) => {
-//   console.log('Message received. ', payload);
-//   // ...
-// });
 
 export const fire = {
   dbRef,

@@ -171,35 +171,7 @@ export const useApi = defineStore("api", {
       }
     },
     getTokenMessaging() {
-      if (Notification.permission !== "granted") {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            messaging
-              .getToken(messaging.msg, {
-                vapidKey:
-                  "BMjMYZhE6p-gXHRyFzHX5T-iNUSGjuQtRFF_NhLzZDFxpdOZ07mAvFp6AnV-RGcZPkCa-C2h_3HMoatN6KTUdNo",
-              })
-              .then((currentToken) => {
-                if (currentToken) {
-                  console.log("CURRENT TOKEN: ", currentToken);
-                  fire.set(fire.dbRef(database, "users/" + response.user.uid), {
-                    messagingToken: currentToken,
-                  });
-                } else {
-                  // Show permission request UI
-                  console.log(
-                    "No registration token available. Request permission to generate one."
-                  );
-                  // ...
-                }
-              })
-              .catch((err) => {
-                console.log("An error occurred while retrieving token. ", err);
-                // ...
-              });
-          }
-        });
-      }
+     console.log("aqui")
     },
     ...memory,
   },
