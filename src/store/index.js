@@ -171,7 +171,50 @@ export const useApi = defineStore("api", {
       }
     },
     getTokenMessaging() {
-     console.log("aqui")
+      if ("Notification" in window) {
+        // Verificar se as permissões de notificação já foram concedidas
+        if (Notification.permission === "granted") {
+          console.log('sim')
+          fire.onMessage((payload) => {
+            console.log('Message received. ', payload);
+            // ...
+          });
+        } else {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              fire
+                .getToken(messaging, {
+                  vapidKey:
+                    "BMjMYZhE6p-gXHRyFzHX5T-iNUSGjuQtRFF_NhLzZDFxpdOZ07mAvFp6AnV-RGcZPkCa-C2h_3HMoatN6KTUdNo",
+                })
+                .then((currentToken) => {
+                  if (currentToken) {
+                    fire.set(
+                      fire.dbRef(database, "users/" + this.userId),
+                      {
+                        messagingToken:currentToken
+                      }
+                    );
+                    console.log("CURRENT TOKEN->      ",currentToken)
+                  } else {
+                    // Show permission request UI
+                    console.log(
+                      "No registration token available. Request permission to generate one."
+                    );
+                    // ...
+                  }
+                })
+                .catch((err) => {
+                  console.log(
+                    "An error occurred while retrieving token. ",
+                    err
+                  );
+                  // ...
+                });
+            }
+          });
+        }
+      }
     },
     ...memory,
   },

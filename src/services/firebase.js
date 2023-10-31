@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 
-
 import {
   getAuth,
   signInWithPopup,
@@ -17,6 +16,8 @@ import {
   set,
   child,
 } from "firebase/database";
+
+import { getMessaging, getToken , onMessage } from "firebase/messaging";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -40,8 +41,7 @@ export const database = getDatabase(app);
 
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
-
-
+export const messaging = getMessaging(app);
 
 export const fire = {
   dbRef,
@@ -54,4 +54,6 @@ export const fire = {
   signInWithPopup,
   signOut,
   set,
+  getToken,
+  onMessage
 };
