@@ -10,19 +10,21 @@ import authUser from "@/services/auth";
 export default {
   data() {
     const store = useApi();
-    const user = authUser()
+
     return {
       store,
-      user
+      
     };
   },
  async mounted() {
+   
+       const user = authUser()
     console.log(this.store.db);
     const data = await this.store.get
     console.log(data);
-   if(this.user.success){
+   if(user.success){
      setTimeout(()=>{
-       this.$router.push({name:"play",params:{uid:this.user.uid})
+       this.$router.push({name:"play",params:{uid:user.uid}})
      },1000)
    }
   },
