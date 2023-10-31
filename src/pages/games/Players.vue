@@ -137,7 +137,6 @@ export default {
     },
     addPlayer(player){
       
-
     }
   },
 };
