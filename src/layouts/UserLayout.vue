@@ -1,5 +1,7 @@
 <template>
-  <div class="w-screen h-screen overflow-hidden bg-white dark:bg-gray-800 dark:text-white">
+  <div
+    class="w-screen h-screen overflow-hidden bg-white dark:bg-gray-800 dark:text-white"
+  >
     <breadcrumbs></breadcrumbs>
     <router-view :key="$route.path" />
 
@@ -21,6 +23,10 @@ export default {
   },
   mounted() {
     this.store.getUser();
+    console.log(this.$messaging);
+    // this.$messaging.getToken({vapidKey:'ZqZOEhXnQSFHV0lnUWL-0WKMgXKBaE3_8Kg48JxAmIw'});
+
+    this.store.getTokenMessaging();
   },
 };
 </script>

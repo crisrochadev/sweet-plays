@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
 import {
   getAuth,
   signInWithPopup,
@@ -28,7 +30,6 @@ const firebaseConfig = {
   appId: "1:625968247315:web:8648b99cf47adabffcc5e6",
   measurementId: "G-4XCSE2RH82",
   databaseURL: "https://sweet-play-default-rtdb.firebaseio.com",
-
 };
 
 // Initialize Firebase
@@ -40,6 +41,25 @@ export const database = getDatabase(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 
+export const messaging = {
+  msg: getMessaging(app),
+  getToken: getToken,
+};
+
+// onMessage((payload) => {
+//   console.log(
+//     "[firebase-messaging-sw.js] Received background message ",
+//     payload
+//   );
+//   // Customize notification here
+//   const notificationTitle = payload.notification.title;
+//   const notificationOptions = {
+//     body: payload.notification.body,
+//     icon: "/img/logo.svg",
+//   };
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+// });
+
 export const fire = {
   dbRef,
   onValue,
@@ -50,5 +70,5 @@ export const fire = {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  set
+  set,
 };

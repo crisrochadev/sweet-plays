@@ -16,7 +16,7 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: HomeView,
       },
-            {
+      {
         path: "login",
         name: "login",
         // route level code-splitting
@@ -24,7 +24,7 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () =>
           import(/* webpackChunkName: "about" */ "../pages/Login.vue"),
-            }
+      },
     ],
   },
 
@@ -71,6 +71,20 @@ const routes = [
         name: "memory",
         meta: { title: "Jogo da memória" },
         component: () => import("../pages/games/Memory.vue"),
+        children: [
+          {
+            path: "only-memory",
+            meta: { title: "Jogar Sozinho" },
+            name: "only_memory",
+            component: () => import("../pages/games/memory/OnlyMemory.vue"),
+          },
+          {
+            path: "friend-memory",
+            meta: { title: "Jogar Sozinho" },
+            name: "friend_memory",
+            component: () => import("../pages/games/memory/FriendMemory.vue"),
+          },
+        ],
       },
       {
         path: "old",

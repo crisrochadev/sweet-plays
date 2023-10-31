@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
-import { database, fire, auth } from "@/services/firebase";
+import { database, fire, auth, messaging } from "@/services/firebase";
 import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
+import memory from "./memory";
+import { useStorage } from "@vueuse/core";
 
 export const useApi = defineStore("api", {
   state() {
@@ -14,6 +16,9 @@ export const useApi = defineStore("api", {
       user: null,
       router,
       players: [],
+      userId: useStorage("@uid", null),
+      memory: useStorage("@memory", {}),
+      memories: [],
     };
   },
   getters: {
@@ -71,7 +76,10 @@ export const useApi = defineStore("api", {
       if (error) {
         return response;
       }
-      this.user = response.user;
+      if (response.user && response.user.uid) {
+        this.user = response.user;
+        this.userId = response.user.uid;
+      }
       return response;
     },
     async register({ email, password, username }) {
@@ -86,7 +94,6 @@ export const useApi = defineStore("api", {
           return { error: error.message, success: false };
         });
 
-      console.log(response);
       if (error) {
         return response;
       }
@@ -105,7 +112,7 @@ export const useApi = defineStore("api", {
           fire.dbRef(database, "users/" + response.user.uid),
           currentUser
         );
-        console.log(res);
+        this.userId = response.user.uid;
       }
       return response;
     },
@@ -163,5 +170,37 @@ export const useApi = defineStore("api", {
         this.players = res;
       }
     },
+    getTokenMessaging() {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission().then((permission) => {
+          if (permission === "granted") {
+            messaging
+              .getToken(messaging.msg, {
+                vapidKey:
+                  "BMjMYZhE6p-gXHRyFzHX5T-iNUSGjuQtRFF_NhLzZDFxpdOZ07mAvFp6AnV-RGcZPkCa-C2h_3HMoatN6KTUdNo",
+              })
+              .then((currentToken) => {
+                if (currentToken) {
+                  console.log("CURRENT TOKEN: ", currentToken);
+                  fire.set(fire.dbRef(database, "users/" + response.user.uid), {
+                    messagingToken: currentToken,
+                  });
+                } else {
+                  // Show permission request UI
+                  console.log(
+                    "No registration token available. Request permission to generate one."
+                  );
+                  // ...
+                }
+              })
+              .catch((err) => {
+                console.log("An error occurred while retrieving token. ", err);
+                // ...
+              });
+          }
+        });
+      }
+    },
+    ...memory,
   },
 });

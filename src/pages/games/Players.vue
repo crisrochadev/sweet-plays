@@ -1,57 +1,56 @@
 <template>
   <div class="w-full h-[calc(100vh_-_70px)] relative p-2">
     <div class="relative overflow-hidden h-full shadow-md sm:rounded-lg">
-      <div class="flex items-center justify-center mt-2 pb-4">
-        <label for="table-search" class="sr-only">Search</label>
-        <div class="relative">
-          <div
-            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-          >
-            <span class="material-icons-outlined">search</span>
-          </div>
-          <input
-            type="text"
-            id="table-search"
-            class="block p-2 pl-10 text-sm text-cyan-900 border border-cyan-300 rounded-lg w-80 bg-cyan-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-cyan-700 dark:border-cyan-600 dark:placeholder-cyan-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Buscar Jogadores"
-          />
-        </div>
-      </div>
-
       <div
-        class="w-[98%] mx-auto max-w-[600px] h-10 flex justify-center items-center mb-2"
+        class="w-[98%] mx-auto max-w-[600px] h-8 flex justify-center items-center mb-2"
       >
         <button
           @click="tab = 'add'"
-          class="flex-1 border border-cyan-600 flex justify-center items-center h-full uppercase font-bold"
+          class="flex-1 border-b-2 flex justify-center items-center h-full uppercase"
           :class="[
-            tab === 'add' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600',
+            tab === 'add'
+              ? ' border-cyan-600 text-cyan-600 font-bold'
+              : ' border-gray-600 text-gray-700',
           ]"
-          style="border-radius: 5px 0 0 5px"
         >
           <p>Adicionados</p>
         </button>
         <button
           @click="tab = 'all'"
-          class="flex-1 border border-cyan-600 flex justify-center items-center h-full uppercase font-bold"
+          class="flex-1 border-b-2 flex justify-center items-center h-full uppercase"
           :class="[
-            tab === 'all' ? 'bg-cyan-600 text-white' : 'bg-white text-cyan-600',
+            tab === 'all'
+              ? ' border-cyan-600 text-cyan-600 font-bold'
+              : ' border-gray-600 text-gray-700',
           ]"
-          style="border-radius: 0 5px 5px 0"
         >
           <p>Todos</p>
         </button>
       </div>
-<div v-if="!apiIsReady" class="w-full h-full flex justify-center items-center top-0 left-0">
-  
-<div role="status">
-    <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-cyan-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-    </svg>
-    <span class="sr-only">Loading...</span>
-</div>
-</div>
+      <div
+        v-if="!apiIsReady"
+        class="w-full h-full flex justify-center items-center top-0 left-0"
+      >
+        <div role="status">
+          <svg
+            aria-hidden="true"
+            class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-cyan-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       <div
         v-else
         class="w-[98%] flex flex-col justify-start items-center mx-auto overflow-y-auto pb-32 h-full"
@@ -59,7 +58,8 @@
         <div
           v-for="player in players"
           :key="player"
-          class="w-full h-14 border p-2 rounded-md bg-white text-blue-600 grid justify-start items-center my-2"
+          tabindex="-1"
+          class="border-b border-cyan-100 w-full h-10 hover:bg-gray-50 focus:bg-gray-50 bg-white text-blue-600 grid justify-start items-center"
           style="grid-template-columns: 40px 1fr 40px"
         >
           <div class="w-full h-10">
@@ -76,13 +76,14 @@
             </p>
           </div>
           <div
-            class="w-full overflow-hidden px-4 text-cyan-900 uppercase font-bold flex justify-start items-center"
+            class="w-full overflow-hidden px-4 text-cyan-700 uppercase font-bold flex justify-start items-center"
           >
             @ <span>{{ player.username ? player.username : "" }}</span>
           </div>
           <div class="w-full flex justify-center items-center">
             <button
-              class="rounded-full p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:border-2 focus:border-blue-400"
+            @click="addPlayer(player)"
+              class=" p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900 "
             >
               <span class="material-icons-sharp">group_add</span>
             </button>
@@ -103,12 +104,12 @@ export default {
       store,
       icon,
       tab: "all",
-      apiIsReady:false
+      apiIsReady: false,
     };
   },
-async  mounted() {
-  await  this.store.getPlayers();
-    this.apiIsReady = true
+  async mounted() {
+    await this.store.getPlayers();
+    this.apiIsReady = true;
   },
   computed: {
     players() {
@@ -134,6 +135,10 @@ async  mounted() {
       }
       return letters;
     },
+    addPlayer(player){
+      
+
+    }
   },
 };
 </script>

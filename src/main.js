@@ -10,5 +10,4 @@ import 'material-icons/iconfont/material-icons.css';
 const app = createApp(App)
 .use(createPinia())
 .use(router)
-
 app.mount('#app')
