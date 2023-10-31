@@ -106,7 +106,7 @@ export default {
       apiIsReady:false
     };
   },
-  mounted() {
+async  mounted() {
   await  this.store.getPlayers();
     this.apiIsReady = true
   },
