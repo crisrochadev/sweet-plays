@@ -2,6 +2,7 @@
 // Note that you can only use Firebase Messaging here. Other Firebase libraries
 // are not available in the service worker.
 
+
 importScripts(
   "https://www.gstatic.com/firebasejs/<v9+>/firebase-app-compat.js"
 );
@@ -31,6 +32,7 @@ const messaging = firebase.messaging();
 messaging.onMessage((payload) => {
   console.log(payload);
 });
+
 messaging.onBackgroundMessage((payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
