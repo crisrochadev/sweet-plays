@@ -31,33 +31,4 @@ if (process.env.NODE_ENV === "production") {
       console.error("Error during service worker registration:", error);
     },
   });
-  register(`${process.env.BASE_URL}firebase-messaging-sw.js`, {
-    ready() {
-      console.log(
-        "App is being served from cache by a service worker.\n" +
-          "For more details, visit https://goo.gl/AFskqB"
-      );
-    },
-    registered() {
-      console.log("Service worker firebase-messaging has been registered.");
-    },
-    cached() {
-      console.log("firebase-messaging Content has been cached for offline use.");
-    },
-    updatefound() {
-      console.log("firebase-messaging New content is downloading.");
-    },
-    updated() {
-      console.log("firebase-messaging New content firebase-messaging is available; please refresh.");
-    },
-    offline() {
-      console.log(
-        "firebase-messaging No internet connection found. App is running in offline mode."
-      );
-    },
-    error(error) {
-      console.error("Error during service worker registration:", error);
-    },
-  });
-
 }
