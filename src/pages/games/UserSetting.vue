@@ -1,6 +1,6 @@
 <template>
-    <div>
-<div class="w-full h-10 px-4 text-cyan-600 hover:text-cyan-900" @click="store.logout">
+    <div claas="flex flex-col justify-start items-start w-full p-2 gap-2">
+<div class="w-full h-10 px-4 text-white bg-cyan-600 hover:bg-cyan-900 rounded shadow-md" @click="store.logout">
     sair
 </div>
     </div>
