@@ -97,6 +97,8 @@ router.beforeEach(async (to, from) => {
     return { name: "home" };
   } else if (!user.success && to.name !== "login" && to.name !== "home") {
     return { name: "login" };
+  }else if(to.name === 'home'){
+    return {name:play, params:{uid:user.uid}}
   }
 });
 export default router;
