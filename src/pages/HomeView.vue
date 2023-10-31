@@ -19,7 +19,7 @@ export default {
  async mounted() {
    
        const user = authUser()
-    console.log(this.store.db);
+    
     const data = await this.store.get
     console.log(data);
    if(user.success){
