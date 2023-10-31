@@ -26,6 +26,8 @@ export default {
      setTimeout(()=>{
        this.$router.push({name:"play",params:{uid:user.uid}})
      },1000)
+   }else{
+     this.$router.push({name:"login"})
    }
   },
 };
