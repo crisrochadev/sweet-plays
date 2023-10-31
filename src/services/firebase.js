@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage  } from "firebase/messaging";
 
 import {
   getAuth,
@@ -47,17 +47,8 @@ export const messaging = {
 };
 
 // onMessage((payload) => {
-//   console.log(
-//     "[firebase-messaging-sw.js] Received background message ",
-//     payload
-//   );
-//   // Customize notification here
-//   const notificationTitle = payload.notification.title;
-//   const notificationOptions = {
-//     body: payload.notification.body,
-//     icon: "/img/logo.svg",
-//   };
-//   self.registration.showNotification(notificationTitle, notificationOptions);
+//   console.log('Message received. ', payload);
+//   // ...
 // });
 
 export const fire = {
