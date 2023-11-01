@@ -96,7 +96,7 @@
 
 <script>
 import { useApi } from "@/store";
-  import axios from "axios"
+
 import icon from "@/assets/icon_invite.svg";
 export default {
   data() {
