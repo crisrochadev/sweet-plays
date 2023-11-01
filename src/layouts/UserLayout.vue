@@ -27,6 +27,7 @@ export default {
     // this.$messaging.getToken({vapidKey:'ZqZOEhXnQSFHV0lnUWL-0WKMgXKBaE3_8Kg48JxAmIw'});
 
     this.store.getTokenMessaging();
+    this.store.listenNotifications();
   },
 };
 </script>

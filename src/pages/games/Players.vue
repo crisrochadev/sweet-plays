@@ -82,8 +82,8 @@
           </div>
           <div class="w-full flex justify-center items-center">
             <button
-            @click="addPlayer(player)"
-              class=" p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900 "
+              @click="addPlayer(player)"
+              class="p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900"
             >
               <span class="material-icons-sharp">group_add</span>
             </button>
@@ -98,6 +98,7 @@
 import { useApi } from "@/store";
 
 import icon from "@/assets/icon_invite.svg";
+import axios from "axios";
 export default {
   data() {
     const store = useApi();
@@ -136,35 +137,17 @@ export default {
       }
       return letters;
     },
-    async addPlayer(player){
-    if(this.store.user){
-      const notification={ 
-        to: player.messagingToken, 
-        data: { 
-           notification: { 
-              title: "Convite", 
-              body: this.store.user.username + " pediu para te adicionar.", 
-              click_action: "https://sweet-plays/play/"+player.uid+"/players", 
-              ícone: "/img/logo.svg" 
-           } 
-        } 
+    async addPlayer(player) {
+      if (this.store.user) {
+        console.log(this.store.user);
+        const notification = {
+          title: "convite",
+          body: "O usuário " + player.username + " te enviou um convite!",
+          command: "add_user",
+        };
+        this.store.sendMessage(notification, player.uid);
       }
-   const url = "https://fcm.googleapis.com/fcm/send"
-     const response = await fetch(url, {
-       method: "POST", // *GET, POST, PUT, DELETE, etc
-       headers: {
-            "Content-Type": "application/json",
-             Authorization:{
-                key:"AIzaSyBsBNX84OqY8p7o8PDc1_noqercPiGRtdU"
-             }
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-       },
-       body: JSON.stringify(notification), // body data type must match "Content-Type" header
-      });
-        
-      }
-      
-    }
+    },
   },
 };
 </script>

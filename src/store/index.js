@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import memory from "./memory";
 import { useStorage } from "@vueuse/core";
+import moment from "moment";
 
 export const useApi = defineStore("api", {
   state() {
@@ -19,6 +20,8 @@ export const useApi = defineStore("api", {
       userId: useStorage("@uid", null),
       memory: useStorage("@memory", {}),
       memories: [],
+      accessUserToken: useStorage("@token", null),
+      notifications: [],
     };
   },
   getters: {
@@ -59,7 +62,10 @@ export const useApi = defineStore("api", {
       if (error) {
         return response;
       }
+      console.log(response.user);
+      console.log(response.user.accessToken);
       this.user = response.user;
+      this.accessUserToken = response.user.accessToken;
       return response;
     },
     async login({ email, password }) {
@@ -170,51 +176,86 @@ export const useApi = defineStore("api", {
         this.players = res;
       }
     },
+    getToken() {
+      console.log("get token");
+      fire
+        .getToken(messaging, {
+          vapidKey:
+            "BMjMYZhE6p-gXHRyFzHX5T-iNUSGjuQtRFF_NhLzZDFxpdOZ07mAvFp6AnV-RGcZPkCa-C2h_3HMoatN6KTUdNo",
+        })
+        .then((currentToken) => {
+          if (currentToken) {
+            const updates = {
+              ["/users/" + this.userId + "/messagingToken"]: currentToken,
+            };
+
+            fire.update(fire.dbRef(database), updates);
+
+            // fire.set(fire.dbRef(database, "users/" + this.userId), newuser);
+            // console.log("CURRENT TOKEN->      ", currentToken);
+          } else {
+            // Show permission request UI
+            console.log(
+              "No registration token available. Request permission to generate one."
+            );
+            // ...
+          }
+        })
+        .catch((err) => {
+          console.log("An error occurred while retrieving token. ", err);
+          // ...
+        });
+    },
     getTokenMessaging() {
       if ("Notification" in window) {
         // Verificar se as permissões de notificação já foram concedidas
-        if (Notification.permission === "granted") {
-          console.log('sim')
-          fire.onMessage((payload) => {
-            console.log('Message received. ', payload);
-            // ...
-          });
-        } else {
+        if (Notification.permission !== "granted") {
           Notification.requestPermission().then((permission) => {
             if (permission === "granted") {
-              fire
-                .getToken(messaging, {
-                  vapidKey:
-                    "BMjMYZhE6p-gXHRyFzHX5T-iNUSGjuQtRFF_NhLzZDFxpdOZ07mAvFp6AnV-RGcZPkCa-C2h_3HMoatN6KTUdNo",
-                })
-                .then((currentToken) => {
-                  if (currentToken) {
-                    let newuser = this.user
-                    user[messagingToken] = currentToken
-                    fire.set(
-                      fire.dbRef(database, "users/" + this.userId),
-                      newuser
-                    );
-                    console.log("CURRENT TOKEN->      ",currentToken)
-                  } else {
-                    // Show permission request UI
-                    console.log(
-                      "No registration token available. Request permission to generate one."
-                    );
-                    // ...
-                  }
-                })
-                .catch((err) => {
-                  console.log(
-                    "An error occurred while retrieving token. ",
-                    err
-                  );
-                  // ...
-                });
+              this.getToken();
+            }
+          });
+        } else {
+          this.getToken();
+        }
+      }
+    },
+    sendMessage(message, playerUid) {
+      const updates = {
+        ["/users/" +
+        playerUid +
+        "/notifications/" +
+        moment(Date.now()).format("DD-MM-YYYYTHH-MM-SS-ssss")]: message,
+      };
+
+      fire.update(fire.dbRef(database), updates);
+    },
+    listenNotifications() {
+      const starCountRef = fire.dbRef(
+        database,
+        "users/" + this.userId + "/notifications"
+      );
+      fire.onValue(starCountRef, (snapshot) => {
+        if (snapshot.val()) {
+          console.log(snapshot.val());
+          let data = {};
+          Object.entries(snapshot.val()).forEach(([key, value]) => {
+            const time = key.replace(/-/g, "/").split("T")[1].split("/");
+            time.pop();
+            data = {
+              key,
+              date: key.replace(/-/g, "/").split("T")[0],
+              time: time.join(":"),
+              ...value,
+            };
+            console.log(data);
+            if (!this.notifications.some((m) => m.key === data.key)) {
+              this.notifications.push(data);
             }
           });
         }
-      }
+      });
+      console.log(this.notifications);
     },
     ...memory,
   },

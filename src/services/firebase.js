@@ -15,9 +15,11 @@ import {
   get,
   set,
   child,
+  push,
+  update,
 } from "firebase/database";
 
-import { getMessaging, getToken , onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -55,5 +57,7 @@ export const fire = {
   signOut,
   set,
   getToken,
-  onMessage
+  onMessage,
+  push,
+  update,
 };
