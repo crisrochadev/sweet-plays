@@ -137,12 +137,13 @@ export default {
       return letters;
     },
     addPlayer(player){
+      if(this.store.user){
       const notification={ 
         "to": player.messagingToken, 
         "data": { 
            "notification": { 
               "title": "Convite", 
-              "body": this.user.username + " pediu para te adicionar.", 
+              "body": this.store.user.username + " pediu para te adicionar.", 
               "click_action": "https://sweet-plays/play/"+player.uid+"/players", 
               "ícone": "/img/logo.svg" 
            } 
@@ -163,7 +164,7 @@ export default {
     },
     body: JSON.stringify(notification), // body data type must match "Content-Type" header
   });
-
+      }
     }
   },
 };
