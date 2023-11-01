@@ -8,6 +8,7 @@
         class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
         <li
+          @click="action(notification)"
           v-for="notification in notifications"
           :key="notification.key"
           class="w-full flex flex-col hover:bg-cyan-100 focus:bg-cyan-100 cursor-pointer justify-between items-start px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600"
@@ -50,16 +51,55 @@
 
 <script>
 import { useApi } from "@/store/index.js";
+import { useNotify } from "@/composables/useNotify";
 export default {
   data() {
+    const notify = useNotify();
     const store = useApi();
     return {
       store,
+      notify,
     };
   },
   computed: {
     notifications() {
-      return this.store.notifications;
+      console.log(this.store.notifications);
+      return this.store.notifications.filter((not) => !not.opened);
+    },
+  },
+  methods: {
+    async action(notification) {
+      console.log(notification.command.type);
+      switch (notification.command.type) {
+        case "add_user":
+          const user = await this.store.getDataBy(
+            "users",
+            notification.command.data
+          );
+          if (!user.err) {
+            const not = await this.notify.confirmCancel(
+              "Deseja adicionar " + user.username + " à sua lista de players?"
+            );
+
+            if (not) {
+              this.store.updateData(
+                "users",
+                this.store.userId,
+                "players/" + notification.command.data,
+                user
+              );
+              this.store.updateData(
+                "notifications",
+                this.store.userId +
+                  "/"+notification.key,
+                "opened",
+                true
+              );
+              this.store.listenNotifications();
+            }
+          }
+          break;
+      }
     },
   },
 };

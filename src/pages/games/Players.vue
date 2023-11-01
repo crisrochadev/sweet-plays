@@ -82,6 +82,20 @@
           </div>
           <div class="w-full flex justify-center items-center">
             <button
+              v-if="player.invitedes && player.invitedes[store.userId]"
+              :id="`add_${player.uid}`"
+              @click="
+                notify.message(
+                  'Este usuário já foi convidado',
+                  `add_${player.uid}`
+                )
+              "
+              class="p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900"
+            >
+              <span class="material-icons-sharp">done</span>
+            </button>
+            <button
+              v-else
               @click="addPlayer(player)"
               class="p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900"
             >
@@ -96,30 +110,43 @@
 
 <script>
 import { useApi } from "@/store";
+import { useNotify } from "@/composables/useNotify";
 
 import icon from "@/assets/icon_invite.svg";
 import axios from "axios";
 export default {
   data() {
     const store = useApi();
+    const notify = useNotify();
     return {
       store,
       icon,
       tab: "all",
       apiIsReady: false,
+      notify,
     };
   },
   async mounted() {
-    await this.store.getPlayers();
+    this.store.getPlayers();
     this.apiIsReady = true;
   },
   computed: {
-    players() {
-      if (this.tab === "all") {
-        return this.store.players;
-      } else {
-        return [];
-      }
+    players: {
+      get() {
+        if (this.tab === "all") {
+          console.log(this.store.players);
+          return this.store.players.filter(
+            (player) => !player.players || !player.players[this.store.userId]
+          );
+        } else {
+          return this.store.players.filter(
+            (player) => player.players && player.players[this.store.userId]
+          );
+        }
+      },
+      set(newvalue) {
+        this.store.players = newvalue;
+      },
     },
   },
   methods: {
@@ -139,13 +166,36 @@ export default {
     },
     async addPlayer(player) {
       if (this.store.user) {
-        console.log(this.store.user);
         const notification = {
           title: "convite",
           body: "O usuário " + player.username + " te enviou um convite!",
-          command: "add_user",
+          command: {
+            type: "add_user",
+            data: player.uid,
+          },
         };
-        this.store.sendMessage(notification, player.uid);
+        const res = this.store.sendMessage(notification, player.uid);
+
+        if (res) {
+          this.notify.positiveConfirm(
+            "Enviamos uma notificação para " +
+              player.username +
+              ", assim que confirmado, será adicionado a sua lista de jogadores."
+          );
+          const res = await this.store.updateData(
+            "users",
+            player.uid,
+            "invitedes/" + this.store.userId,
+            true
+          );
+          if (res) {
+            this.store.getPlayers();
+          }
+        } else {
+          this.notify.negativeConfirm(
+            "Não foi possivel adicionar o usuário, por favor entre em contato com o suporte na aba suporte."
+          );
+        }
       }
     },
   },

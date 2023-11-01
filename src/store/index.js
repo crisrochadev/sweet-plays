@@ -48,26 +48,7 @@ export const useApi = defineStore("api", {
     increment() {
       this.count++;
     },
-    async login({ email, password }) {
-      let error = null;
-      let response = await fire
-        .signInWithEmailAndPassword(this.auth, email, password)
-        .then((userCredential) => {
-          return { user: userCredential.user, success: true };
-        })
-        .catch((error) => {
-          return { error: error.message, success: false };
-        });
 
-      if (error) {
-        return response;
-      }
-      console.log(response.user);
-      console.log(response.user.accessToken);
-      this.user = response.user;
-      this.accessUserToken = response.user.accessToken;
-      return response;
-    },
     async login({ email, password }) {
       let error = null;
       let response = await fire
@@ -85,6 +66,7 @@ export const useApi = defineStore("api", {
       if (response.user && response.user.uid) {
         this.user = response.user;
         this.userId = response.user.uid;
+        this.accessUserToken = response.user.accessToken;
       }
       return response;
     },
@@ -154,13 +136,42 @@ export const useApi = defineStore("api", {
     async getUser() {
       this.user = auth.currentUser;
     },
-    async getPlayers() {
+    async getDataBy(table, key) {
       const getDB = fire.dbRef(database);
-      const res = await fire
+      return new Promise((resolve) => {
+        fire
+          .get(fire.child(getDB, table + "/" + key))
+          .then((snapshot) => {
+            console.log(snapshot.val());
+            if (snapshot.exists()) {
+              resolve(snapshot.val());
+            } else {
+              resolve({ err: true });
+            }
+          })
+          .catch((err) => resolve({ err }));
+      });
+    },
+    getPlayers() {
+      const getDB = fire.dbRef(database);
+      fire
         .get(fire.child(getDB, `users`))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            return snapshot.val();
+            Object.entries(snapshot.val()).forEach(([key, value]) => {
+              const data = {
+                uid: key,
+                ...value,
+              };
+              if (!this.players.some((player) => player.uid === data.uid)) {
+                this.players.push(data);
+              } else {
+                const index = this.players.findIndex(
+                  (player) => player.uid === data.uid
+                );
+                this.players[index] = data;
+              }
+            });
           } else {
             console.log("No data available");
             return {
@@ -171,10 +182,6 @@ export const useApi = defineStore("api", {
         .catch((error) => {
           console.error(error);
         });
-
-      if (!res.error) {
-        this.players = res;
-      }
     },
     getToken() {
       console.log("get token");
@@ -220,24 +227,49 @@ export const useApi = defineStore("api", {
         }
       }
     },
-    sendMessage(message, playerUid) {
-      const updates = {
-        ["/users/" +
-        playerUid +
-        "/notifications/" +
-        moment(Date.now()).format("DD-MM-YYYYTHH-MM-SS-ssss")]: message,
-      };
+    async sendMessage(message, playerUid) {
+      return await new Promise((resolve) => {
+        const updates = {
+          ["/notifications/" +
+          playerUid +
+          "/" +
+          moment(Date.now()).format("DD-MM-YYYYTHH-MM-SS-ssss")]: message,
+        };
 
-      fire.update(fire.dbRef(database), updates);
+        fire
+          .update(fire.dbRef(database), updates)
+          .then((res) => {
+            resolve(true);
+          })
+          .then((erro) => {
+            resolve(false);
+          });
+      });
+    },
+    async updateData(table, playerUid, key, value) {
+      return await new Promise((resolve) => {
+        const updates = {
+          ["/" + table + "/" + playerUid + "/" + key]: value,
+        };
+
+        fire
+          .update(fire.dbRef(database), updates)
+          .then((res) => {
+            resolve(true);
+          })
+          .then((erro) => {
+            resolve(false);
+          });
+      });
     },
     listenNotifications() {
       const starCountRef = fire.dbRef(
         database,
-        "users/" + this.userId + "/notifications"
+        "/notifications/" + this.userId
       );
       fire.onValue(starCountRef, (snapshot) => {
+        console.log(snapshot.val());
         if (snapshot.val()) {
-          console.log(snapshot.val());
           let data = {};
           Object.entries(snapshot.val()).forEach(([key, value]) => {
             const time = key.replace(/-/g, "/").split("T")[1].split("/");
