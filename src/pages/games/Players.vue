@@ -136,7 +136,7 @@ export default {
       }
       return letters;
     },
-    addPlayer(player){
+    async addPlayer(player){
     if(this.store.user){
       const notification={ 
         to: player.messagingToken, 
