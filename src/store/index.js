@@ -189,11 +189,11 @@ export const useApi = defineStore("api", {
                 })
                 .then((currentToken) => {
                   if (currentToken) {
-                    let user = this.user,
+                    let newuser = this.user,
                     user[messagingToken] = currentToken
                     fire.set(
                       fire.dbRef(database, "users/" + this.userId),
-                      user
+                      newuser
                     );
                     console.log("CURRENT TOKEN->      ",currentToken)
                   } else {
