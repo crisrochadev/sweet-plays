@@ -14,12 +14,12 @@ export default {
             ...value,
           }
         });
-        if(!this.memory.some(m => m.uid === data.uid){
-           this.memory.push(data)
+        if(!this.memoried.some(m => m.uid === data.uid){
+           this.memories.push(data)
         }
         else {
           let index = this.memory.findIndex(m => m.uid === data.uid)
-          this.memory[index] = data
+          this.memories[index] = data
         }
       }
    })
