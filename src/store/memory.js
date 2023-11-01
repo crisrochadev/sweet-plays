@@ -14,7 +14,7 @@ export default {
             ...value,
           }
         });
-        if(!this.memoried.some(m => m.uid === data.uid)){
+        if(!this.memories.some(m => m.uid === data.uid)){
            this.memories.push(data)
         }
         else {
