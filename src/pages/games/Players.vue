@@ -155,7 +155,7 @@ export default {
           headers:{
             "Content-Type": "Application/json",
             Authorization:{
-              key:player.messagingToken
+              key:"AIzaSyBsBNX84OqY8p7o8PDc1_noqercPiGRtdU"
             }
           }
         }
