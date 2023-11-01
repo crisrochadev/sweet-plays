@@ -5,22 +5,24 @@ export default {
     const starCountRef = fire.dbRef(database, "memory");
 
   
-      fire.onValue(starCountRef, (snapshot) => {
+  fire.onValue(starCountRef, (snapshot) => {
       if(snapshot.val()){
         let data = {}
         Object.entries(snapshot.val()).forEach(([key, value]) => {
-        data = {
-          uid: key,
-          ...value,
-        }
-      });
+          data = {
+            uid: key,
+            ...value,
+          }
+        });
         if(!this.memory.some(m => m.uid === data.uid){
-      this.memory.push(data)
+           this.memory.push(data)
         }
         else {
           let index = this.memory.findIndex(m => m.uid === data.uid)
           this.memory[index] = data
         }
+      }
+   })
         
     
   },
