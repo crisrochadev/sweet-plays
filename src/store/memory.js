@@ -1,19 +1,27 @@
 import { database, fire, auth } from "@/services/firebase";
 export default {
   async getAllMemories() {
-    let memories = []
+    
     const starCountRef = fire.dbRef(database, "memory");
 
   
       fire.onValue(starCountRef, (snapshot) => {
       if(snapshot.val()){
-      Object.entries(snapshot.val()).forEach(([key, value]) => {
-        memories.push({
+        let data = {}
+        Object.entries(snapshot.val()).forEach(([key, value]) => {
+        data = {
           uid: key,
           ...value,
-        });
+        }
       });
-        this.memories = memories
+        if(!this.memory.some(m => m.uid === data.uid){
+      this.memory.push(data)
+        }
+        else {
+          let index = this.memory.findIndex(m => m.uid === data.uid)
+          this.memory[index] = data
+        }
+        
       }
       })
   },
