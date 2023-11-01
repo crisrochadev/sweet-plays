@@ -3,22 +3,17 @@ export default {
   async getAllMemories() {
     const starCountRef = fire.dbRef(database, "memory");
 
-    const result = new Promise((resolve) => {
+  
       fire.onValue(starCountRef, (snapshot) => {
-        resolve(snapshot.val());
-      });
-    });
-
-    const data = await result;
-
-    if (data) {
-      Object.entries(data).forEach(([key, value]) => {
+      if(snapshot.val()){
+      Object.entries(snapshot.val()).forEach(([key, value]) => {
         this.memories.push({
           uid: key,
           ...value,
         });
       });
-    }
+      }
+      })
   },
   async getMemory() {
     const starCountRef = fire.dbRef(database, "memory/" + this.userId);
