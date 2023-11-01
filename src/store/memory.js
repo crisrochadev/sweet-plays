@@ -22,8 +22,7 @@ export default {
           this.memory[index] = data
         }
         
-      }
-      })
+    
   },
   async getMemory() {
     const starCountRef = fire.dbRef(database, "memory/" + this.userId);
