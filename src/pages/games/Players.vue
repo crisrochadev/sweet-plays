@@ -96,6 +96,7 @@
 
 <script>
 import { useApi } from "@/store";
+  import axios from "axios"
 import icon from "@/assets/icon_invite.svg";
 export default {
   data() {
@@ -136,7 +137,29 @@ export default {
       return letters;
     },
     addPlayer(player){
-      
+      const notification={ 
+        "to": player.messagingToken, 
+        "data": { 
+           "notification": { 
+              "title": "Convite", 
+              "body": this.user.username + " pediu para te adicionar.", 
+              "click_action": "https://sweet-plays/play/"+player.uid+"/players", 
+              "ícone": "/img/logo.svg" 
+           } 
+        } 
+      }
+      const res = await axios.post(
+           "https://fcm.googleapis.com/fcm/send",
+          notification,
+        {
+          headers:{
+            "Content-Type": "Application/json",
+            Authorization:{
+              key:player.messagingToken
+            }
+          }
+        }
+        )
     }
   },
 };
