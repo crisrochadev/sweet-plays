@@ -149,18 +149,18 @@ export default {
            } 
         } 
       }
-//     const url = "https://fcm.googleapis.com/fcm/send"
-//     const response = await fetch(url, {
-//       method: "POST", // *GET, POST, PUT, DELETE, etc
-//   headers: {
-     //     "Content-Type": "application/json",
-       //    Authorization:{
-     //         key:"AIzaSyBsBNX84OqY8p7o8PDc1_noqercPiGRtdU"
-      //  }
+   const url = "https://fcm.googleapis.com/fcm/send"
+     const response = await fetch(url, {
+       method: "POST", // *GET, POST, PUT, DELETE, etc
+       headers: {
+            "Content-Type": "application/json",
+             Authorization:{
+                key:"AIzaSyBsBNX84OqY8p7o8PDc1_noqercPiGRtdU"
+             }
       // 'Content-Type': 'application/x-www-form-urlencoded',
-    //  },
-     // body: JSON.stringify(notification), // body data type must match "Content-Type" header
-    // });
+       },
+       body: JSON.stringify(notification), // body data type must match "Content-Type" header
+      });
         
       }
       
