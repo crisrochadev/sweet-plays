@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 import memory from "./memory";
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
-import useNotify from "@/composables/useNotify"
+import { useNotify } from "@/composables/useNotify"
 
 export const useApi = defineStore("api", {
   state() {
