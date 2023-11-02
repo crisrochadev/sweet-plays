@@ -73,6 +73,13 @@ export default {
       switch (notification.command.type) {
         case "readonly":
           this.notify.positive("Mensagem lida")
+          this.store.updateData(
+                "notifications",
+                this.store.userId +
+                  "/"+notification.key,
+                "opened",
+                true
+              );
         break;
         case "add_user":
           const user = await this.store.getDataBy(
