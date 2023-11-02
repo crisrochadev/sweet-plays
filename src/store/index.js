@@ -63,8 +63,8 @@ export const useApi = defineStore("api", {
           return { error: error.message, success: false };
         });
 
-      if (error) {
-        this.notify.negative(error.message)
+      if (response.error) {
+        this.notify.negative(response.error.message)
         return response;
       }
       if (response.user && response.user.uid) {
@@ -86,8 +86,8 @@ export const useApi = defineStore("api", {
           return { error: error.message, success: false };
         });
 
-      if (error) {
-        this.notify.negative(error.message)
+      if (response.error) {
+        this.notify.negative(response.error.message)
         return response;
       }
       if (response.user && response.user.uid) {
