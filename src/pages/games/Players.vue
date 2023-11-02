@@ -136,11 +136,13 @@ export default {
         if (this.tab === "all") {
           console.log(this.store.players);
           return this.store.players.filter(
-            (player) => !player.players || !player.players[this.store.userId]
+            (player) => (!player.players || !player.players[this.store.userId])
+            && player.uid !== this.store.userId
           );
         } else {
           return this.store.players.filter(
-            (player) => player.players && player.players[this.store.userId]
+            (player) => ( player.players && player.players[this.store.userId] )
+            && player.uid !== this.store.userId
           );
         }
       },
