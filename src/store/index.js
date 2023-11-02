@@ -121,7 +121,7 @@ export const useApi = defineStore("api", {
       fire
         .signOut(auth)
         .then(() => {
-          this.conected = false;
+          this.isConected = false;
           Swal.fire({
             position: "top-center",
             icon: "success",

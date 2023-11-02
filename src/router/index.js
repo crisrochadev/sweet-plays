@@ -118,16 +118,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const isConected = localStorage.getItem("@sweet-plays-isConected");
+  const user = await authUser();
+  console.log(user);
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (authUser()) {
+    if (user) {
       next();
     } else {
       notify.message("Volte, faça login ou cadastre-se");
       next("/login");
     }
   } else {
-    if (isConected && authUser()) {
-      next("/play/" + authUser().uid);
+    if (isConected && user) {
+      next("/play/" + user.uid);
     } else next();
   }
 });

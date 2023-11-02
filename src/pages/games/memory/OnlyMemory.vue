@@ -11,10 +11,10 @@
           }}</span>
         </p>
         <p class="flex items-center gap-2">
-          <img class="w-8 h-8" :src="getImage()" />
+            <img class="w-8 h-8" :src="getImage()" />
           <span
             v-if="position > 3"
-            class="text-cyan-600 font-extrabold text-2xl"
+            class="text-cyan-600 font-extrabold text-2xl dark:text-cyan-100"
             >{{ position }}</span
           >
         </p>
@@ -153,6 +153,7 @@ export default {
       },
     },
     ranking() {
+      console.log(this.memories)
       return this.memories.sort((a, b) => b.score - a.score);
     },
     position() {

@@ -72,15 +72,14 @@ export default {
       console.log(notification.command.type);
       switch (notification.command.type) {
         case "readonly":
-          this.notify.positive("Mensagem lida")
+          this.notify.positive("Mensagem lida");
           this.store.updateData(
-                "notifications",
-                this.store.userId +
-                  "/"+notification.key,
-                "opened",
-                true
-              );
-        break;
+            "notifications",
+            this.store.userId + "/" + notification.key,
+            "opened",
+            true
+          );
+          break;
         case "add_user":
           const user = await this.store.getDataBy(
             "users",
@@ -96,36 +95,41 @@ export default {
                 "users",
                 this.store.userId,
                 "players/" + notification.command.data,
-                user
+                ""
               );
-               this.store.updateData(
+              this.store.updateData(
                 "users",
-               notification.command.data ,
-                "players/" +this.store.userId   ,
-                this.store.user
+                notification.command.data,
+                "players/" + this.store.userId,
+                ""
               );
               this.store.updateData(
                 "notifications",
-                this.store.userId +
-                  "/"+notification.key,
+                this.store.userId + "/" + notification.key,
                 "opened",
                 true
               );
-              const res = this.store.sendMessage({
-                title: "Convite aceito",
-                body:" O usuário "+this.store.username+" aceitou seu convite, e agora faz parte da sua lista de players",
-                command:{
-                   type:"readonly"
-                }
-              }, notification.command.data);
+              const res = this.store.sendMessage(
+                {
+                  title: "Convite aceito",
+                  body:
+                    " O usuário " +
+                    this.store.username +
+                    " aceitou seu convite, e agora faz parte da sua lista de players",
+                  command: {
+                    type: "readonly",
+                  },
+                },
+                notification.command.data
+              );
 
               if (res) {
-               this.notify.positiveConfirm(
+                this.notify.positiveConfirm(
                   "O usuário " +
-                   user.username +
-                  ", foi adicionado à sua lista de players"
-               );
-             }
+                    user.username +
+                    ", foi adicionado à sua lista de players"
+                );
+              }
               this.store.listenNotifications();
             }
           }

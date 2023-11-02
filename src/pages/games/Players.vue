@@ -82,7 +82,7 @@
           </div>
           <div class="w-full flex justify-center items-center">
             <button
-              v-if="player.invitedes && player.invitedes[store.userId]"
+              v-if="tab === 'all' && player.invitedes && player.invitedes[store.userId]"
               :id="`add_${player.uid}`"
               @click="
                 notify.message(
@@ -95,7 +95,7 @@
               <span class="material-icons-sharp">done</span>
             </button>
             <button
-              v-else
+              v-else-if="tab === 'all'"
               @click="addPlayer(player)"
               class="p-1 text-cyan-600 font-extra-bold cursor-pointer transition-colors delay-100 hover:text-cyan-900 focus:text-cyan-900"
             >
@@ -136,13 +136,21 @@ export default {
         if (this.tab === "all") {
           console.log(this.store.players);
           return this.store.players.filter(
-            (player) => (!player.players || !player.players[this.store.userId])
-            && player.uid !== this.store.userId
+            (player) =>
+              (!player.players ||
+                !Object.keys(player.players).some(
+                  (p) => p === this.store.userId
+                )) &&
+              player.uid !== this.store.userId
           );
         } else {
           return this.store.players.filter(
-            (player) => ( player.players && player.players[this.store.userId] )
-            && player.uid !== this.store.userId
+            (player) =>
+              player.players &&
+              Object.keys(player.players).some(
+                (p) => p === this.store.userId
+              ) &&
+              player.uid !== this.store.userId
           );
         }
       },
@@ -173,7 +181,7 @@ export default {
           body: "O usuário " + player.username + " te enviou um convite!",
           command: {
             type: "add_user",
-            data: player.uid,
+            data: this.store.userId,
           },
         };
         const res = this.store.sendMessage(notification, player.uid);
