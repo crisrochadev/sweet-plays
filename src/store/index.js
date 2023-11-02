@@ -5,11 +5,13 @@ import { useRouter } from "vue-router";
 import memory from "./memory";
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
+import useNotify from "@/composables/useNotify"
 
 export const useApi = defineStore("api", {
   state() {
     const db = database;
     const router = useRouter();
+    const notify = useNotify()
     return {
       db,
       data: [],
@@ -22,6 +24,7 @@ export const useApi = defineStore("api", {
       memories: [],
       accessUserToken: useStorage("@token", null),
       notifications: [],
+      notify
     };
   },
   getters: {
@@ -61,6 +64,7 @@ export const useApi = defineStore("api", {
         });
 
       if (error) {
+        this.notify.negative(error.message)
         return response;
       }
       if (response.user && response.user.uid) {
@@ -83,6 +87,7 @@ export const useApi = defineStore("api", {
         });
 
       if (error) {
+        this.notify.negative(error.message)
         return response;
       }
       if (response.user && response.user.uid) {
