@@ -72,7 +72,7 @@ export const useApi = defineStore("api", {
         this.user = response.user;
         this.userId = response.user.uid;
         this.accessUserToken = response.user.accessToken;
-        const user = awai this.getDataBy("users", response.user.uid)
+        const user = await this.getDataBy("users", response.user.uid)
         this.username = user.username
       }
       
