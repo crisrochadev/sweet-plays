@@ -71,6 +71,9 @@ export default {
     async action(notification) {
       console.log(notification.command.type);
       switch (notification.command.type) {
+        case "readonly":
+          this.notify.positive("Mensagem lida")
+        break;
         case "add_user":
           const user = await this.store.getDataBy(
             "users",
