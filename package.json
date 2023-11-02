@@ -9,6 +9,7 @@
   "dependencies": {
     "@vueuse/core": "^10.5.0",
     "@vueuse/sound": "^2.0.1",
+    "animate.css": "^4.1.1",
     "axios": "^1.6.0",
     "core-js": "^3.8.3",
     "firebase": "^10.5.2",

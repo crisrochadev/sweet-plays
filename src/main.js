@@ -6,6 +6,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import { createPinia } from "pinia";
 import "material-icons/iconfont/material-icons.css";
+import '../node_modules/animate.css';
 
 
 if ('serviceWorker' in navigator) {
