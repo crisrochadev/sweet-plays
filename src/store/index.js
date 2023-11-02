@@ -284,6 +284,10 @@ export const useApi = defineStore("api", {
             if (!this.notifications.some((m) => m.key === data.key)) {
               this.notifications.push(data);
             }
+            else{
+               const index = this.notifications.findIndex((m) => m.key === data.key)
+              this.notifications[index] = data
+            }
           });
         }
       });
