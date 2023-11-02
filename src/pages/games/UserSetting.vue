@@ -88,6 +88,12 @@ export default {
                 "players/" + notification.command.data,
                 user
               );
+               this.store.updateData(
+                "users",
+               notification.command.data ,
+                "players/" +this.store.userId   ,
+                user
+              );
               this.store.updateData(
                 "notifications",
                 this.store.userId +
