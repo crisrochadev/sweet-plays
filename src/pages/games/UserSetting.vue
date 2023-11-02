@@ -101,6 +101,21 @@ export default {
                 "opened",
                 true
               );
+              const res = this.store.sendMessage({
+                title: "Convite aceito",
+                body:" O usuário "+this.store.user.username+" aceitou seu convite, e agora faz parte da sua lista de players",
+                command:{
+                   type:"readonly"
+                }
+              }, user.uid);
+
+              if (res) {
+               this.notify.positiveConfirm(
+                  "O usuário " +
+                   user.username +
+                  ", foi adicionado à sua lista de players"
+               );
+             }
               this.store.listenNotifications();
             }
           }
