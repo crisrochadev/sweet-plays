@@ -5,13 +5,13 @@ import { useRouter } from "vue-router";
 import memory from "./memory";
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
-import { useNotify } from "@/composables/useNotify"
+import { useNotify } from "@/composables/useNotify";
 
 export const useApi = defineStore("api", {
   state() {
     const db = database;
     const router = useRouter();
-    const notify = useNotify()
+    const notify = useNotify();
     return {
       db,
       data: [],
@@ -24,8 +24,9 @@ export const useApi = defineStore("api", {
       memories: [],
       accessUserToken: useStorage("@token", null),
       notifications: [],
-      username:useStorage("@username",null),
-      notify
+      username: useStorage("@username", null),
+      isConected: useStorage("@sweet-plays-isConected", false),
+      notify,
     };
   },
   getters: {
@@ -53,7 +54,7 @@ export const useApi = defineStore("api", {
       this.count++;
     },
 
-    async login({ email, password }) {
+    async login({ email, password, conected }) {
       let error = null;
       let response = await fire
         .signInWithEmailAndPassword(this.auth, email, password)
@@ -65,17 +66,18 @@ export const useApi = defineStore("api", {
         });
 
       if (response.error) {
-        this.notify.negative(response.error)
+        this.notify.negative(response.error);
         return response;
       }
       if (response.user && response.user.uid) {
         this.user = response.user;
         this.userId = response.user.uid;
         this.accessUserToken = response.user.accessToken;
-        const user = await this.getDataBy("users", response.user.uid)
-        this.username = user.username
+        this.isConected = conected;
+        const user = await this.getDataBy("users", response.user.uid);
+        this.username = user.username;
       }
-      
+
       return response;
     },
     async register({ email, password, username }) {
@@ -91,12 +93,12 @@ export const useApi = defineStore("api", {
         });
 
       if (response.error) {
-        this.notify.negative(response.error)
+        this.notify.negative(response.error);
         return response;
       }
       if (response.user && response.user.uid) {
         this.user = response.user;
-        
+
         let currentUser = {
           uid: response.user.uid,
           email: response.user.email,
@@ -111,7 +113,7 @@ export const useApi = defineStore("api", {
           currentUser
         );
         this.userId = response.user.uid;
-        this.username = username
+        this.username = username;
       }
       return response;
     },
@@ -119,6 +121,7 @@ export const useApi = defineStore("api", {
       fire
         .signOut(auth)
         .then(() => {
+          this.conected = false;
           Swal.fire({
             position: "top-center",
             icon: "success",
@@ -294,10 +297,11 @@ export const useApi = defineStore("api", {
             console.log(data);
             if (!this.notifications.some((m) => m.key === data.key)) {
               this.notifications.push(data);
-            }
-            else{
-               const index = this.notifications.findIndex((m) => m.key === data.key)
-              this.notifications[index] = data
+            } else {
+              const index = this.notifications.findIndex(
+                (m) => m.key === data.key
+              );
+              this.notifications[index] = data;
             }
           });
         }

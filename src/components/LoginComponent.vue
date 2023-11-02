@@ -48,6 +48,7 @@
             type="checkbox"
             value=""
             id="conected"
+            name="conected"
             checked
           />
           <label

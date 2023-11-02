@@ -14,7 +14,7 @@
           type="email"
           name="email"
           class="focus:outline-none w-full h-14 bg-transparent border-2 border-cyan-500 rounded p-2 placeholder:text-cyan-500"
-          id="exampleFormControlInput3"
+          id="email2"
           placeholder="Email"
         />
       </div>
@@ -25,7 +25,7 @@
           v-model="username"
           required
           class="focus:outline-none w-full h-14 bg-transparent border-2 border-cyan-500 rounded p-2 placeholder:text-cyan-500"
-          id="exampleFormControlInput3"
+          id="username"
           placeholder="Nome de usuário"
         />
         <p v-if="errorDisplay" class="text-xs text-red-700 px-1"> {{ errorMsg }}</p>

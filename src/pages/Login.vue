@@ -64,6 +64,7 @@ export default {
       const loginData = {
         email: e.target.email.value,
         password: e.target.password.value,
+        conected: e.target.conected.checked,
       };
       const res = await this.store.login(loginData);
       console.log(res);

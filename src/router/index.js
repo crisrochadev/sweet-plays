@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../pages/HomeView.vue";
 import authUser from "@/services/auth";
+import { useNotify } from "@/composables/useNotify";
 
+const notify = useNotify();
 const routes = [
   {
     path: "/",
@@ -33,6 +35,7 @@ const routes = [
     name: "games",
     meta: {
       title: "Jogos",
+      requiresAuth: true,
     },
     component: () => import("../layouts/UserLayout.vue"),
     children: [
@@ -113,12 +116,19 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from) => {
-  const user = await authUser();
-  if (to.name === "games") {
-    return { name: "home" };
-  } else if (!user.success && to.name !== "login" && to.name !== "home") {
-    return { name: "login" };
+router.beforeEach(async (to, from, next) => {
+  const isConected = localStorage.getItem("@sweet-plays-isConected");
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (authUser()) {
+      next();
+    } else {
+      notify.message("Volte, faça login ou cadastre-se");
+      next("/login");
+    }
+  } else {
+    if (isConected && authUser()) {
+      next("/play/" + authUser().uid);
+    } else next();
   }
 });
 export default router;
