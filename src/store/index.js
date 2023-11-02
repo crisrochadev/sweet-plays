@@ -24,6 +24,7 @@ export const useApi = defineStore("api", {
       memories: [],
       accessUserToken: useStorage("@token", null),
       notifications: [],
+      username:useStorage("@username",null),
       notify
     };
   },
@@ -71,7 +72,10 @@ export const useApi = defineStore("api", {
         this.user = response.user;
         this.userId = response.user.uid;
         this.accessUserToken = response.user.accessToken;
+        const user = awai this.getDataBy("users", response.user.uid)
+        this.username = user.username
       }
+      
       return response;
     },
     async register({ email, password, username }) {
@@ -92,6 +96,7 @@ export const useApi = defineStore("api", {
       }
       if (response.user && response.user.uid) {
         this.user = response.user;
+        
         let currentUser = {
           uid: response.user.uid,
           email: response.user.email,
@@ -106,6 +111,7 @@ export const useApi = defineStore("api", {
           currentUser
         );
         this.userId = response.user.uid;
+        this.username = username
       }
       return response;
     },
