@@ -92,7 +92,7 @@ export default {
                 "users",
                notification.command.data ,
                 "players/" +this.store.userId   ,
-                user
+                this.store.user
               );
               this.store.updateData(
                 "notifications",
