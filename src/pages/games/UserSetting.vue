@@ -106,11 +106,11 @@ export default {
               );
               const res = this.store.sendMessage({
                 title: "Convite aceito",
-                body:" O usuário "+this.store.user.username+" aceitou seu convite, e agora faz parte da sua lista de players",
+                body:" O usuário "+this.store.username+" aceitou seu convite, e agora faz parte da sua lista de players",
                 command:{
                    type:"readonly"
                 }
-              }, user.uid);
+              }, notification.command.data);
 
               if (res) {
                this.notify.positiveConfirm(
